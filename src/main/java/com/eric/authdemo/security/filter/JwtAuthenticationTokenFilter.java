@@ -42,14 +42,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             logger.info("checking authentication " + username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                if (jwtUtil.verifyToken(authHeader)) {
+//                if (jwtUtil.verifyToken(authHeader)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
                             httpServletRequest));
                     logger.info("authenticated user " + username + ", setting security context");
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+//                }
             } else {
                 httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                 return;
