@@ -1,5 +1,6 @@
 package com.eric.authdemo.config.security;
 
+import com.eric.authdemo.security.MyFilterSecurityInterceptor;
 import com.eric.authdemo.security.UserDetailsServiceImpl;
 import com.eric.authdemo.security.filter.JwtAuthenticationTokenFilter;
 import com.eric.authdemo.security.handler.AuthenticationFailHandler;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -40,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailHandler failHandler;
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Resource
+    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -67,15 +71,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(failHandler)
                 .and()
                 .authorizeRequests()
-                // 允许用户访问登陆接口
-//                .antMatchers("/login").permitAll()
-//                .antMatchers(HttpMethod.POST, "/user/save").permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 剩下所有的验证都需要验证
                 .anyRequest().authenticated();
-        // 添加JWT filter
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                // 添加JWT filter
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                // 添加权限过滤器
+                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
         // 禁用缓存
         http.headers().cacheControl();
     }

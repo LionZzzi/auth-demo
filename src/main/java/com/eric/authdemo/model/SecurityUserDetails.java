@@ -30,9 +30,7 @@ public class SecurityUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> grantedAuthorities = CollUtil.newArrayList();
         List<Role> roles = this.getRoles();
-        for (Role role : roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        roles.forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())));
         return grantedAuthorities;
     }
 

@@ -12,10 +12,18 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     /**
-     * 根据userId获取角色
+     * 根据用户ID获取角色
      *
      * @param userId 用户ID
      * @return 角色集合
      */
     List<Role> findByUserId(Long userId);
+
+    /**
+     * 根据权限ID获取角色
+     *
+     * @param permissionId 权限ID
+     * @return 角色集合
+     */
+    List<Role> findByPermissionId(Long permissionId);
 }

@@ -20,4 +20,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public List<Role> findByUserId(Long userId) {
         return baseMapper.findByUserId(userId);
     }
+
+    @Override
+    public List<Role> findByPermissionId(Long permissionId) {
+        return baseMapper.findByPermissionId(permissionId);
+    }
 }

@@ -1,5 +1,7 @@
 package com.eric.authdemo.security.handler;
 
+import com.eric.authdemo.model.common.Result;
+import com.eric.authdemo.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -18,7 +20,8 @@ import java.io.IOException;
 public class UnAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException {
+        log.info("===== 进入UnAccessDeniedHandler =====");
         log.warn("===== 暂无权限 =====");
-        httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+        ResponseUtil.out(httpServletResponse, Result.fail("暂无权限"));
     }
 }
