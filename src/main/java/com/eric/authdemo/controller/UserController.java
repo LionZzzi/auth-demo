@@ -26,7 +26,7 @@ public class UserController {
         return Result.success(userService.getById(id), "ok");
     }
 
-    @GetMapping("current")
+    @GetMapping("/current")
     public Result<String> current() {
         SecurityContext context = SecurityContextHolder.getContext();
         return Result.success("user", "ok");

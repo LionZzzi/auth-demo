@@ -1,11 +1,15 @@
 package com.eric.authdemo.util;
 
+import cn.hutool.core.map.MapUtil;
+import com.eric.authdemo.constant.JwtConstants;
 import com.eric.authdemo.exception.TokenException;
+import com.eric.authdemo.model.SecurityUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -34,6 +38,13 @@ public class JwtUtil {
      * - 默认半小时
      */
     private static final Long EXPIRATION_TIME = 1800000L;
+
+    public String createByAuthentication(Authentication authentication) {
+        Map<String, Object> map = MapUtil.newHashMap();
+        SecurityUserDetails principal = (SecurityUserDetails) authentication.getPrincipal();
+        map.put(JwtConstants.PAYLOAD_NAME, principal.getName());
+        return create(map);
+    }
 
     public String create(Map<String, Object> claims) {
         // 加密算法

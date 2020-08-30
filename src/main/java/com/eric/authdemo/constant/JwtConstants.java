@@ -1,6 +1,8 @@
 package com.eric.authdemo.constant;
 
 /**
+ * JWT相关常量
+ *
  * @author Eric
  * @since 2020/8/30 12:51
  */
