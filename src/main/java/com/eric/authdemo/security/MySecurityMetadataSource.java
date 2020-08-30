@@ -72,6 +72,7 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
                 return map.get(url);
             }
         }
+        // 必须返回一个默认的角色回去,否则不执行MyAccessDecisionManager,导致拦截失败
         return SecurityConfig.createList("ROLE_NO_ACCESS");
     }
 
