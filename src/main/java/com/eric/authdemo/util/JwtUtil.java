@@ -31,9 +31,15 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
+    /**
+     * 默认秘钥: eric
+     */
     @Value("${jwt.secret:eric}")
     private String secret;
 
+    /**
+     * 默认过期时间: 1小时
+     */
     @Value("${jwt.expiration-time:1}")
     private Long expirationTime;
 
@@ -92,15 +98,5 @@ public class JwtUtil {
             log.error("===== Token解析异常 =====");
             throw new TokenException("登陆凭证异常");
         }
-    }
-
-    /**
-     * 判断token是否合法
-     *
-     * @param token 令牌
-     * @return boolean
-     */
-    public Boolean verifyToken(String token) {
-        return parseToken(token).getExpiration().before(new Date());
     }
 }
