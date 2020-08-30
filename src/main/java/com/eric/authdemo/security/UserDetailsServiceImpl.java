@@ -1,7 +1,6 @@
 package com.eric.authdemo.security;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.eric.authdemo.model.SecurityUserDetails;
 import com.eric.authdemo.model.domain.Role;
 import com.eric.authdemo.model.domain.User;
@@ -34,14 +33,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        log.info("==== 进入UserDetailsServiceImpl ====");
+        log.info("===== 进入UserDetailsServiceImpl =====");
         User user = userService.findByName(name);
         if (ObjectUtil.isNull(user)) {
             throw new UsernameNotFoundException("找不到用户");
         }
-        List<Role> roles = roleService.findByUserId(user.getId());
         SecurityUserDetails userDetails = mapper.map(user, SecurityUserDetails.class);
+        List<Role> roles = roleService.findByUserId(user.getId());
         userDetails.setRoles(roles);
+        log.info("===== 退出UserDetailsServiceImpl =====");
         return userDetails;
     }
 }

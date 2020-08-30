@@ -6,7 +6,6 @@ import com.eric.authdemo.security.handler.AuthenticationFailHandler;
 import com.eric.authdemo.security.handler.AuthenticationSuccessHandler;
 import com.eric.authdemo.security.handler.UnAccessDeniedHandler;
 import com.eric.authdemo.security.handler.UnAuthenticatedEntryPoint;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

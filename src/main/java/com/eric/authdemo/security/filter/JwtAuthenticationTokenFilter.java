@@ -1,9 +1,13 @@
 package com.eric.authdemo.security.filter;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.eric.authdemo.constant.JwtConstants;
 import com.eric.authdemo.security.UserDetailsServiceImpl;
 import com.eric.authdemo.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -35,26 +39,25 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        log.info("===== 校验token,JwtAuthenticationTokenFilter ====");
-        String authHeader = httpServletRequest.getHeader("token");
-        if (authHeader != null) {
-            String username = (String) jwtUtil.parseToken(authHeader).get("name");
-            logger.info("checking authentication " + username);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-//                if (jwtUtil.verifyToken(authHeader)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                            httpServletRequest));
-                    logger.info("authenticated user " + username + ", setting security context");
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-//                }
+        log.info("===== 进入JwtAuthenticationTokenFilter =====");
+        String token = httpServletRequest.getHeader(JwtConstants.TOKEN);
+        if (StrUtil.isNotEmpty(token)) {
+            log.info("===== 开始校验token ====");
+            String username = (String) jwtUtil.parseToken(token).get(JwtConstants.PAYLOAD_NAME);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            if (StrUtil.isNotEmpty(username) && ObjectUtil.isNull(securityContext.getAuthentication())) {
+                log.info("===== 校验{}=====", username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                log.info("===== 将用户{}放入Spring上下文中 =====", username);
+                securityContext.setAuthentication(authentication);
             } else {
                 httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                 return;
             }
         }
+        log.info("===== 退出JwtAuthenticationTokenFilter =====");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

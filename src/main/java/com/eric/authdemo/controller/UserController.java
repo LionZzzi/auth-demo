@@ -3,6 +3,8 @@ package com.eric.authdemo.controller;
 import com.eric.authdemo.model.common.Result;
 import com.eric.authdemo.model.domain.User;
 import com.eric.authdemo.service.UserService;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,12 @@ public class UserController {
     @GetMapping("/{id}")
     public Result<User> findById(@PathVariable String id) {
         return Result.success(userService.getById(id), "ok");
+    }
+
+    @GetMapping("current")
+    public Result<String> current() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        return Result.success("user", "ok");
     }
 
     @PostMapping("/save")
