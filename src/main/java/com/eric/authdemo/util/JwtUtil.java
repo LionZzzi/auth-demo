@@ -9,11 +9,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 
@@ -28,16 +31,11 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    /**
-     * 秘钥
-     */
-    private static final String SECRET = "eric";
+    @Value("${jwt.secret:eric}")
+    private String secret;
 
-    /**
-     * 有效期，单位秒
-     * - 默认半小时
-     */
-    private static final Long EXPIRATION_TIME = 1800000L;
+    @Value("${jwt.expiration-time:1}")
+    private Long expirationTime;
 
     public String createByAuthentication(Authentication authentication) {
         Map<String, Object> map = MapUtil.newHashMap();
@@ -49,15 +47,15 @@ public class JwtUtil {
     public String create(Map<String, Object> claims) {
         // 加密算法
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        Date expirationTime = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
-        byte[] keyBytes = SECRET.getBytes();
+        LocalDateTime time = LocalDateTime.now().plusHours(expirationTime);
+        byte[] keyBytes = secret.getBytes();
         Key signingKey = new SecretKeySpec(keyBytes, signatureAlgorithm.getJcaName());
         // 附带ID信息
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("auth_demo")
                 .setIssuedAt(new Date())
-                .setExpiration(expirationTime)
+                .setExpiration(Date.from(time.atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(signatureAlgorithm, signingKey)
                 .compact();
     }
@@ -84,7 +82,7 @@ public class JwtUtil {
         // 获取Claims
         try {
             return Jwts.parser()
-                    .setSigningKey(SECRET.getBytes())
+                    .setSigningKey(secret.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {

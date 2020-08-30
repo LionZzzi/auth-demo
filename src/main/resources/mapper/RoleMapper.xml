@@ -4,6 +4,6 @@
     <select id="findByUserId" resultType="com.eric.authdemo.model.domain.Role">
         SELECT role.*
         FROM t_role role
-        WHERE role.id in (SELECT ur.role_id FROM t_user_role ur WHERE ur.user_id = #{userId})
+        WHERE role.id IN (SELECT ur.role_id FROM t_user_role ur WHERE ur.user_id = #{userId})
     </select>
 </mapper>

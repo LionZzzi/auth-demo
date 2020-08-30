@@ -4,3 +4,8 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
   type-aliases-package: com.eric.authdemo.model.domain
+jwt:
+  # 秘钥
+  secret: eric
+  # 过期时间,单位:小时
+  expiration-time: 1
