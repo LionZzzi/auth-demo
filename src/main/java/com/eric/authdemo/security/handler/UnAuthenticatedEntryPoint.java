@@ -20,6 +20,7 @@ import java.io.IOException;
 public class UnAuthenticatedEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
+        log.info("===== 进入UnAuthenticatedEntryPoint =====");
         log.warn("===== 认证失败 =====");
         ResponseUtil.out(httpServletResponse, Result.fail("认证失败"));
     }
