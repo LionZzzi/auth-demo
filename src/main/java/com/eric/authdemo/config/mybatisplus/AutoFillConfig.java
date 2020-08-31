@@ -47,8 +47,8 @@ public class AutoFillConfig implements MetaObjectHandler {
             this.strictInsertFill(metaObject, MybatisPlusConstants.UPDATE_USER_ID, Long.class, null);
         } else {
             this.strictInsertFill(metaObject, MybatisPlusConstants.UPDATE_USER_ID, Long.class, userDetails.getId());
-            this.strictInsertFill(metaObject, MybatisPlusConstants.UPDATE_TIME, Date.class, new Date());
         }
+        this.strictInsertFill(metaObject, MybatisPlusConstants.UPDATE_TIME, Date.class, new Date());
     }
 }
 
