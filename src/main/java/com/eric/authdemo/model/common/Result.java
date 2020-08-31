@@ -45,34 +45,34 @@ public class Result<T> {
     }
 
     public static <T> Result<T> success(T data, String msg) {
-        Result<T> result = new Result<T>(true);
+        Result<T> result = new Result<>(true);
         result.data = data;
         result.msg = msg;
         return result;
     }
 
     public static <T> Result<T> success(String msg) {
-        Result<T> result = new Result<T>(true);
+        Result<T> result = new Result<>(true);
         result.msg = msg;
         return result;
     }
 
     public static <T> Result<T> fail(String msg, int code) {
-        Result<T> result = new Result<T>(false);
+        Result<T> result = new Result<>(false);
         result.msg = msg;
         result.code = code;
         return result;
     }
 
     public static <T> Result<T> fail(String msg) {
-        Result<T> result = new Result<T>(false);
+        Result<T> result = new Result<>(false);
         result.msg = msg;
         result.code = 400;
         return result;
     }
 
     public static <T> Result<T> fail(T data, String msg) {
-        Result<T> result = new Result<T>(false);
+        Result<T> result = new Result<>(false);
         result.data = data;
         result.msg = msg;
         result.code = 400;
