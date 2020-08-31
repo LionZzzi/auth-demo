@@ -1,5 +1,7 @@
 package com.eric.authdemo.security.handler;
 
+import com.eric.authdemo.model.common.Result;
+import com.eric.authdemo.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,6 +21,6 @@ public class UnAuthenticatedEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
         log.warn("===== 认证失败 =====");
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e == null ? "Unauthorized" : e.getMessage());
+        ResponseUtil.out(httpServletResponse, Result.fail("认证失败"));
     }
 }
