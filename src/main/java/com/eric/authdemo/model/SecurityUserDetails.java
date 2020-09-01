@@ -24,13 +24,16 @@ public class SecurityUserDetails implements UserDetails {
 
     private String password;
 
+    private int lockFlag;
+
+    private int enableFlag;
+
     private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> grantedAuthorities = CollUtil.newArrayList();
-        List<Role> roles = this.getRoles();
-        roles.forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())));
+        this.getRoles().forEach(role -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())));
         return grantedAuthorities;
     }
 
@@ -51,7 +54,7 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.lockFlag != 1;
     }
 
     @Override
@@ -61,6 +64,6 @@ public class SecurityUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enableFlag != 1;
     }
 }

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 未登录状态下直接请求需要权限的接口处理
+ *
  * @author Eric
  * @since 2020/8/26 3:30 下午
  */

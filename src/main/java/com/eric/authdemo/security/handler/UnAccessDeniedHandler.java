@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 已登录成功，但是请求的url超出其权限处理
+ *
  * @author Eric
  * @since 2020/8/26 3:33 下午
  */

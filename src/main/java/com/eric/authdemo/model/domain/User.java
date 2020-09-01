@@ -28,4 +28,14 @@ public class User {
      * 密码
      */
     private String password;
+
+    /**
+     * 是否锁定 0:未锁定 1:锁定
+     */
+    private int lockFlag;
+
+    /**
+     * 是否可用 0:可用 1:不可用
+     */
+    private int enableFlag;
 }
