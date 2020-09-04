@@ -1,5 +1,8 @@
 package com.eric.authdemo.controller;
 
+import com.eric.authdemo.constant.ExceptionConstants;
+import com.eric.authdemo.exception.CustomizeException;
+import com.eric.authdemo.model.ExceptionEnum;
 import com.eric.authdemo.model.common.Result;
 import com.eric.authdemo.model.domain.User;
 import com.eric.authdemo.service.UserService;
@@ -37,5 +40,10 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         return Result.success(userService.save(user), "ok");
+    }
+
+    @GetMapping("/exception")
+    public Result<Boolean> exece() {
+        throw new CustomizeException(ExceptionEnum.getMsg(ExceptionConstants.XXX_EXCEPTION), ExceptionConstants.XXX_EXCEPTION);
     }
 }
