@@ -2,8 +2,10 @@ package com.eric.authdemo.config.dozer;
 
 import com.eric.authdemo.model.SecurityUserDetails;
 import com.eric.authdemo.model.domain.Permission;
+import com.eric.authdemo.model.domain.Student;
 import com.eric.authdemo.model.domain.User;
 import com.eric.authdemo.model.dto.PermissionDTO;
+import com.eric.authdemo.model.dto.StudentDTO;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import com.github.dozermapper.core.loader.api.BeanMappingBuilder;
@@ -34,6 +36,7 @@ public class DozerConfig {
             protected void configure() {
                 // 个性化配置添加在此
                 mapping(User.class, SecurityUserDetails.class);
+                mapping(Student.class, StudentDTO.class);
                 mapping(Permission.class, PermissionDTO.class);
             }
         };

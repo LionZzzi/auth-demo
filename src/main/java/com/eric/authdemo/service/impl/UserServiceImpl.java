@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
     @Override
     public User findByName(String name) {
         return new LambdaQueryChainWrapper<>(baseMapper).eq(User::getName, name).one();
