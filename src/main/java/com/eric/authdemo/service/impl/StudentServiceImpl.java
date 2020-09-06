@@ -32,7 +32,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public StudentDTO findById(String id) throws BadSqlGrammarException, NoSuchFieldException {
         Student student = baseMapper.selectById(id);
         StudentDTO dto = mapper.map(student, StudentDTO.class);
-        dto.setTeacherName((String) findService.lambdaQuery(Teacher::getTeacherName));
+        dto.setTeacherName((String) findService.lambdaQuery(Teacher::getName));
         dto.setSchoolName((String) findService.query("name", School.class));
         return dto;
     }

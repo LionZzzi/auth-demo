@@ -1,7 +1,6 @@
 package com.eric.authdemo.model.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -23,6 +22,5 @@ public class Teacher {
     /**
      * 教师名
      */
-    @TableField(value = "teacher_name")
-    private String teacherName;
+    private String name;
 }
