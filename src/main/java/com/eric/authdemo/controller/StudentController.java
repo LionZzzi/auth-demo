@@ -1,9 +1,9 @@
 package com.eric.authdemo.controller;
 
 import com.eric.authdemo.model.common.Result;
-import com.eric.authdemo.model.domain.User;
 import com.eric.authdemo.model.dto.StudentDTO;
 import com.eric.authdemo.service.StudentService;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,10 @@ public class StudentController {
 
     @GetMapping("/findById/{id}")
     public Result<StudentDTO> findById(@PathVariable String id) {
-        return Result.success(studentService.findById(id), "ok");
+        try {
+            return Result.success(studentService.findById(id), "ok");
+        } catch (BadSqlGrammarException e) {
+            return Result.fail(e.getCause().getMessage());
+        }
     }
 }

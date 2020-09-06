@@ -3,18 +3,15 @@ package com.eric.authdemo.model.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author Eric
  * @since 2020/5/19 23:45
  */
 @Data
-@TableName(value = "t_student")
-@EqualsAndHashCode(callSuper = true)
-public class Student extends Model<Student> {
+@TableName(value = "t_school")
+public class School {
 
     /**
      * 主键
@@ -23,17 +20,7 @@ public class Student extends Model<Student> {
     private Long id;
 
     /**
-     * 学生名
+     * 学校名
      */
     private String name;
-
-    /**
-     * 教师ID
-     */
-    private Long teacherId;
-
-    /**
-     * 学校ID
-     */
-    private Long schoolId;
 }
