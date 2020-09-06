@@ -2,7 +2,6 @@ package com.eric.authdemo.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.eric.authdemo.model.domain.Student;
-import com.eric.authdemo.model.domain.Teacher;
 
 /**
  * @author Eric
