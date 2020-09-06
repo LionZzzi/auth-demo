@@ -14,5 +14,5 @@ import java.util.List;
  * @since 2020/8/26 4:46 下午
  */
 public interface StudentService extends IService<Student> {
-    StudentDTO findById(String id) throws BadSqlGrammarException;
+    StudentDTO findById(String id) throws BadSqlGrammarException, NoSuchFieldException;
 }

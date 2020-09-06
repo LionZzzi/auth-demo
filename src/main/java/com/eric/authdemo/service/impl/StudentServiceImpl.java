@@ -1,8 +1,5 @@
 package com.eric.authdemo.service.impl;
 
-import cn.hutool.core.lang.func.Func1;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.eric.authdemo.dao.StudentMapper;
 import com.eric.authdemo.model.domain.School;
@@ -17,8 +14,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Wrapper;
-import java.util.function.Function;
 
 /**
  * @author Eric
@@ -30,18 +25,15 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Resource
     private Mapper mapper;
-
     @Resource
     private FindService findService;
 
     @Override
-    public StudentDTO findById(String id) throws BadSqlGrammarException {
+    public StudentDTO findById(String id) throws BadSqlGrammarException, NoSuchFieldException {
         Student student = baseMapper.selectById(id);
         StudentDTO dto = mapper.map(student, StudentDTO.class);
-        LambdaQueryWrapper<Student> asd = Wrappers.lambdaQuery(Student.class)
-                .eq(Student::getName, "张学生");
-        dto.setTeacherName((String) findService.check(Teacher::getName));
-        //dto.setSchoolName((String) findService.check("name", School.class));
+        dto.setTeacherName((String) findService.lambdaQuery(Teacher::getTeacherName));
+        dto.setSchoolName((String) findService.query("name", School.class));
         return dto;
     }
 }

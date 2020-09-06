@@ -26,7 +26,7 @@ public class StudentController {
     public Result<StudentDTO> findById(@PathVariable String id) {
         try {
             return Result.success(studentService.findById(id), "ok");
-        } catch (BadSqlGrammarException e) {
+        } catch (BadSqlGrammarException | NoSuchFieldException e) {
             return Result.fail(e.getCause().getMessage());
         }
     }
