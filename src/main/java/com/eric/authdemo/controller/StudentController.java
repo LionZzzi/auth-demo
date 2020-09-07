@@ -23,7 +23,7 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/findById/{id}")
-    public Result<StudentDTO> findById(@PathVariable String id) {
+    public Result<StudentDTO> findById(@PathVariable Long id) {
         try {
             return Result.success(studentService.findById(id), "ok");
         } catch (BadSqlGrammarException | NoSuchFieldException e) {
