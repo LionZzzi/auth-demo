@@ -27,11 +27,11 @@ public class FindServiceImpl implements FindService {
     private FindMapper mapper;
 
     @Override
-    public Object query(String name, Class<?> clazz) throws BadSqlGrammarException {
+    public Object query(String column, Class<?> clazz) throws BadSqlGrammarException {
         // TODO: Redis取值操作
         TableName annotation = clazz.getAnnotation(TableName.class);
         if (ObjectUtil.isNotNull(annotation)) {
-            return mapper.check(name, annotation.value());
+            return mapper.check(column, annotation.value());
         }
         return null;
     }

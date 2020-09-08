@@ -9,7 +9,23 @@ import org.springframework.jdbc.BadSqlGrammarException;
  */
 public interface FindService {
 
-    Object query(String name, Class<?> clazz) throws BadSqlGrammarException;
+    /**
+     * 普通查询
+     *
+     * @param column  字段名
+     * @param clazz 类名
+     * @return 返回字段对应的数据
+     * @throws BadSqlGrammarException 错误的SQL异常
+     */
+    Object query(String column, Class<?> clazz) throws BadSqlGrammarException;
 
+    /**
+     * Lambda查询
+     *
+     * @param column 字段名
+     * @param <T>    泛型
+     * @return 返回字段对应的数据
+     * @throws NoSuchFieldException 异常
+     */
     <T> Object lambdaQuery(SFunction<T, ?> column) throws NoSuchFieldException;
 }
