@@ -27,11 +27,11 @@ public class FindServiceImpl implements FindService {
     private FindMapper mapper;
 
     @Override
-    public Object query(String column, Class<?> clazz) throws BadSqlGrammarException {
+    public Object query(String column, String condition, Class<?> clazz) throws BadSqlGrammarException {
         // TODO: Redis取值操作
         TableName annotation = clazz.getAnnotation(TableName.class);
         if (ObjectUtil.isNotNull(annotation)) {
-            return mapper.check(column, annotation.value());
+            return mapper.query(column, condition, annotation.value());
         }
         return null;
     }
@@ -53,11 +53,11 @@ public class FindServiceImpl implements FindService {
             TableField tableField = declaredField.getAnnotation(TableField.class);
             if (ObjectUtil.isNotNull(tableField)) {
                 // 取映射 TableField 中的 value 查询
-                return mapper.check(tableField.value(), annotation.value());
+                return mapper.query(tableField.value(),null, annotation.value());
             } else {
                 // 否则类似 teacherName 转化为 teacher_name 进行查询
                 // 如果数据库字段是 teacherName 则无需以下操作
-                return mapper.check(fieldName.replaceAll("[A-Z]", "_$0").toLowerCase(), annotation.value());
+                return mapper.query(fieldName.replaceAll("[A-Z]", "_$0").toLowerCase(),null, annotation.value());
             }
         }
         return null;

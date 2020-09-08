@@ -11,9 +11,10 @@ public interface FindMapper {
     /**
      * 普通查询
      *
-     * @param column 字段名
-     * @param table  表名
+     * @param column    字段名
+     * @param condition 条件
+     * @param table     表名
      * @return 返回字段对应的数据
      */
-    Object check(@Param("column") String column, @Param("table") String table);
+    Object query(@Param("column") String column, @Param("condition") String condition, @Param("table") String table);
 }

@@ -12,12 +12,13 @@ public interface FindService {
     /**
      * 普通查询
      *
-     * @param column  字段名
-     * @param clazz 类名
+     * @param column    字段名
+     * @param condition 条件
+     * @param clazz     类名
      * @return 返回字段对应的数据
      * @throws BadSqlGrammarException 错误的SQL异常
      */
-    Object query(String column, Class<?> clazz) throws BadSqlGrammarException;
+    Object query(String column, String condition, Class<?> clazz) throws BadSqlGrammarException;
 
     /**
      * Lambda查询

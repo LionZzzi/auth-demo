@@ -33,7 +33,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Student student = baseMapper.selectById(id);
         StudentDTO dto = mapper.map(student, StudentDTO.class);
         dto.setTeacherName((String) findService.lambdaQuery(Teacher::getName));
-        dto.setSchoolName((String) findService.query("name", School.class));
+        dto.setSchoolName((String) findService.query("name","name = 'hahahah'", School.class));
         return dto;
     }
 }
